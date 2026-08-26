@@ -3,7 +3,7 @@
 ═══════════════════════════════════════════ */
 
 // ── Menu Data ──────────────────────────────
-const menuData = {
+let menuData = {
   starters: [
     { name: 'Шопска салата', desc: 'Домати, краставици, чушки, лук и ренде бяло сирене', price: '8.90 лв', emoji: '🥗', tags: ['вегетарианско'] },
     { name: 'Кьопоолу', desc: 'Печени патладжани и чушки с чесън, домати и магданоз', price: '7.50 лв', emoji: '🫙', tags: ['вегетарианско', 'домашно'] },
@@ -57,9 +57,12 @@ function renderMenu(category) {
     const card = document.createElement('div');
     card.className = 'menu__card reveal';
     card.style.transitionDelay = `${i * 0.06}s`;
+    const visual = item.image
+      ? `<img class="menu__card-photo" src="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}" loading="lazy" />`
+      : `<span class="menu__card-emoji">${escapeHTML(item.emoji || '🍽️')}</span>`;
     card.innerHTML = `
       <div class="menu__card-img">
-        ${item.emoji}
+        ${visual}
         ${badge}
       </div>
       <div class="menu__card-body">
@@ -182,6 +185,181 @@ const sectionObserver = new IntersectionObserver((entries) => {
 
 sections.forEach(s => sectionObserver.observe(s));
 
+
+
+// ── Easy visual editor content ─────────────
+function escapeHTML(value = '') {
+  return String(value).replace(/[&<>"']/g, character => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  })[character]);
+}
+
+function setText(selector, value) {
+  const element = document.querySelector(selector);
+  if (element && value) element.textContent = value;
+}
+
+function setPhoneLinks(phone1, phone2) {
+  const links = [...document.querySelectorAll('a[href^="tel:"]')];
+  const phoneHref = phone => `tel:${String(phone || '').replace(/[^+\\d]/g, '')}`;
+
+  if (phone1) {
+    [links[0], links[2]].forEach((link, index) => {
+      if (!link) return;
+      link.href = phoneHref(phone1);
+      link.textContent = index === 0 ? `📞 ${phone1} (резервации)` : phone1;
+    });
+  }
+
+  if (phone2) {
+    [links[1], links[3]].forEach((link, index) => {
+      if (!link) return;
+      link.href = phoneHref(phone2);
+      link.textContent = index === 0 ? `📞 ${phone2}` : phone2;
+    });
+  }
+}
+
+function setSocialLinks(selector, url) {
+  if (!url) return;
+  document.querySelectorAll(selector).forEach(link => {
+    link.href = url;
+  });
+}
+
+function renderEditableGallery(items = []) {
+  const gallery = document.querySelector('.gallery__masonry');
+  if (!gallery || !items.length) return;
+
+  gallery.innerHTML = '';
+  items.slice(0, 12).forEach((item, index) => {
+    const tile = document.createElement('div');
+    tile.className = 'gallery__item';
+    if (index === 0 || index === 4) tile.classList.add('gallery__item--tall');
+    if (index === 3) tile.classList.add('gallery__item--wide');
+
+    if (item.image) {
+      const image = document.createElement('img');
+      image.className = 'gallery__photo';
+      image.src = item.image;
+      image.alt = item.caption || 'Family Restaurant Kasher';
+      image.loading = 'lazy';
+
+      const caption = document.createElement('span');
+      caption.className = 'gallery__caption';
+      caption.textContent = item.caption || '';
+
+      tile.append(image, caption);
+    } else {
+      const placeholder = document.createElement('div');
+      placeholder.className = 'gallery__placeholder';
+      placeholder.innerHTML = `📷<span>${escapeHTML(item.caption || 'Нова снимка')}</span>`;
+      tile.appendChild(placeholder);
+    }
+
+    gallery.appendChild(tile);
+  });
+}
+
+function applyEditableSiteContent(site) {
+  if (!site) return;
+
+  const hero = site.hero || {};
+  const heroTitle = document.querySelector('.hero__title');
+  if (heroTitle) {
+    heroTitle.innerHTML = `${escapeHTML(hero.title || 'Family Restaurant')}<br><em>${escapeHTML(hero.highlight || 'Kasher')}</em>`;
+  }
+  setText('.hero__eyebrow', hero.eyebrow ? `— ${hero.eyebrow} —` : '');
+  setText('.hero__subtitle', hero.subtitle);
+  setText('.hero__family-note', hero.note);
+
+  if (hero.image) {
+    const heroBackground = document.querySelector('.hero__bg');
+    if (heroBackground) {
+      heroBackground.style.backgroundImage =
+        `linear-gradient(to bottom, rgba(35,7,12,.25), rgba(35,7,12,.82)), url("${hero.image}")`;
+      heroBackground.style.backgroundSize = 'cover';
+      heroBackground.style.backgroundPosition = 'center';
+    }
+  }
+
+  const about = site.about || {};
+  const aboutTitle = document.querySelector('.about .section__title');
+  if (aboutTitle) {
+    aboutTitle.innerHTML = `${escapeHTML(about.title || '')}<br><em>${escapeHTML(about.highlight || '')}</em>`;
+  }
+  setText('.about__lead', about.lead);
+  setText('.about__body', about.text);
+
+  if (about.image) {
+    const aboutPlaceholder = document.querySelector('.about__img-placeholder');
+    if (aboutPlaceholder) {
+      aboutPlaceholder.innerHTML = '';
+      const image = document.createElement('img');
+      image.className = 'about__real-photo';
+      image.src = about.image;
+      image.alt = 'Family Restaurant Kasher';
+      image.loading = 'lazy';
+      aboutPlaceholder.appendChild(image);
+    }
+  }
+
+  renderEditableGallery(site.gallery);
+
+  const contact = site.contact || {};
+  setText('.contact__item:first-child div > span:first-of-type', contact.address);
+  setPhoneLinks(contact.phone1, contact.phone2);
+  setSocialLinks('a[href*="facebook.com"]', contact.facebook);
+  setSocialLinks('a[href*="tiktok.com"]', contact.tiktok);
+}
+
+function applyEditableMenu(items) {
+  if (!Array.isArray(items) || !items.length) return;
+
+  const grouped = {
+    starters: [],
+    mains: [],
+    grill: [],
+    soups: [],
+    desserts: [],
+    drinks: []
+  };
+
+  items.forEach(item => {
+    if (!grouped[item.category]) return;
+    grouped[item.category].push({
+      name: item.name || '',
+      desc: item.description || '',
+      price: item.price || '',
+      emoji: item.emoji || '🍽️',
+      image: item.image || ''
+    });
+  });
+
+  menuData = grouped;
+  const activeTab = document.querySelector('.menu__tab--active');
+  renderMenu(activeTab?.dataset.cat || 'starters');
+}
+
+async function loadEditableContent() {
+  try {
+    const [siteResponse, menuResponse] = await Promise.all([
+      fetch('content/site.json', { cache: 'no-store' }),
+      fetch('content/menu.json', { cache: 'no-store' })
+    ]);
+
+    if (siteResponse.ok) applyEditableSiteContent(await siteResponse.json());
+    if (menuResponse.ok) applyEditableMenu(await menuResponse.json());
+  } catch (error) {
+    console.warn('Редакторът временно не успя да зареди новото съдържание.', error);
+  }
+}
+
 // ── Init ───────────────────────────────────
 renderMenu('starters');
 addRevealToSections();
+loadEditableContent();
