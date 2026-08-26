@@ -909,3 +909,57 @@ body {
 .menu__card-badge {
   z-index: 2;
 }
+
+
+/* WARM WINE AND HONEY PALETTE */
+:root {
+  --burgundy:       #651B28;
+  --burgundy-dark:  #321016;
+  --burgundy-light: #A85A32;
+  --gold:           #D19A43;
+  --gold-light:     #F0C675;
+  --gold-pale:      #FFF1CF;
+  --cream:          #FFF9EC;
+  --cream-dark:     #F2E1C5;
+  --charcoal:       #241014;
+}
+
+.hero__bg {
+  background-image:
+    radial-gradient(circle at 15% 70%, rgba(209,154,67,.31), transparent 28rem),
+    radial-gradient(circle at 82% 18%, rgba(168,90,50,.25), transparent 30rem),
+    linear-gradient(145deg, #241014 0%, #651B28 52%, #381119 100%);
+}
+
+.btn--primary {
+  color: #351016;
+  border-color: #E0AE58;
+  background: linear-gradient(135deg, #F0C675 0%, #D19A43 55%, #B7772E 100%);
+  box-shadow: 0 10px 26px rgba(120,72,23,.24);
+}
+
+.btn--primary:hover {
+  color: #271014;
+  border-color: #F6D58E;
+  background: linear-gradient(135deg, #F6D58E 0%, #DCA54C 58%, #C18131 100%);
+  box-shadow: 0 14px 34px rgba(120,72,23,.34);
+}
+
+.section__eyebrow {
+  color: #A85A32;
+}
+
+.menu__tab--active,
+.contact__item-icon {
+  background: linear-gradient(135deg, #651B28, #3A1118);
+}
+
+.features-strip {
+  background: linear-gradient(100deg, #321016, #651B28 48%, #321016);
+}
+
+.booking__bg {
+  background:
+    radial-gradient(ellipse at 18% 50%, rgba(209,154,67,.22) 0%, transparent 55%),
+    linear-gradient(135deg, #241014 0%, #4A151E 54%, #321016 100%);
+}
