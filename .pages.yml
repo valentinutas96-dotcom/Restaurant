@@ -1,0 +1,147 @@
+media:
+  input: media
+  output: /media
+  rename: safe
+  categories: [image]
+
+content:
+  - name: site
+    label: Начална страница и снимки
+    type: file
+    path: content/site.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - name: hero
+        label: Най-горната част
+        type: object
+        fields:
+          - name: eyebrow
+            label: Малък текст отгоре
+            type: string
+          - name: title
+            label: Име на ресторанта
+            type: string
+          - name: highlight
+            label: Оцветена дума
+            type: string
+          - name: subtitle
+            label: Кратко описание
+            type: text
+          - name: note
+            label: Семеен текст
+            type: string
+          - name: image
+            label: Голяма начална снимка
+            type: image
+      - name: about
+        label: За нас
+        type: object
+        fields:
+          - name: title
+            label: Заглавие
+            type: string
+          - name: highlight
+            label: Оцветена част от заглавието
+            type: string
+          - name: lead
+            label: Първи текст
+            type: text
+          - name: text
+            label: Втори текст
+            type: text
+          - name: image
+            label: Снимка за „За нас“
+            type: image
+      - name: gallery
+        label: Галерия
+        type: object
+        list:
+          min: 1
+          max: 12
+          collapsible:
+            collapsed: true
+            summary: "{caption}"
+        fields:
+          - name: caption
+            label: Надпис
+            type: string
+          - name: image
+            label: Снимка
+            type: image
+      - name: contact
+        label: Контакти
+        type: object
+        fields:
+          - name: address
+            label: Адрес
+            type: string
+          - name: phone1
+            label: Основен телефон
+            type: string
+          - name: phone2
+            label: Втори телефон
+            type: string
+          - name: facebook
+            label: Facebook адрес
+            type: string
+          - name: tiktok
+            label: TikTok адрес
+            type: string
+
+  - name: menu
+    label: Меню и цени
+    type: file
+    path: content/menu.json
+    format: json
+    list:
+      collapsible:
+        collapsed: true
+        summary: "{name} — {price}"
+    operations:
+      delete: false
+    fields:
+      - name: category
+        label: Категория
+        type: select
+        options:
+          values:
+            - name: starters
+              label: Предястия
+            - name: mains
+              label: Основни
+            - name: grill
+              label: Скара и пещ
+            - name: soups
+              label: Супи
+            - name: desserts
+              label: Десерти
+            - name: drinks
+              label: Напитки
+      - name: name
+        label: Име на ястието
+        type: string
+        required: true
+      - name: description
+        label: Описание
+        type: text
+      - name: price
+        label: Цена в евро
+        type: string
+        required: true
+      - name: emoji
+        label: Малка картинка (по желание)
+        type: string
+      - name: image
+        label: Истинска снимка на ястието
+        type: image
+
+settings:
+  content:
+    merge: true
+  commit:
+    templates:
+      create: "Обновяване на сайта"
+      update: "Обновяване на сайта"
+      delete: "Обновяване на сайта"
