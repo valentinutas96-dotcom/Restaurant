@@ -1357,3 +1357,63 @@ body {
     animation: none;
   }
 }
+
+
+/* INDIVIDUAL ABOUT FEATURE PHOTOS */
+.about__pillar {
+  align-items: center;
+  gap: 1rem;
+}
+
+.about__pillar-photo {
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
+  display: block;
+  object-fit: cover;
+  border: 3px solid #F6D77F;
+  border-radius: 50%;
+  box-shadow:
+    0 8px 22px rgba(6,58,64,.22),
+    inset 0 0 0 1px rgba(255,255,255,.75);
+}
+
+.about__text .section__eyebrow {
+  color: #064E54;
+  font-weight: 700;
+}
+
+.about__text .section__title {
+  color: #082F35;
+  font-weight: 700;
+  text-shadow: 0 1px 0 rgba(255,255,255,.72);
+}
+
+.about__lead {
+  color: #102F31;
+  font-weight: 600;
+}
+
+.about__body {
+  color: #263F3E;
+  font-weight: 500;
+}
+
+.about__pillar strong {
+  color: #082F35;
+  font-weight: 700;
+  font-size: .95rem;
+}
+
+.about__pillar span {
+  color: #294B47;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .about__pillar-photo {
+    width: 62px;
+    height: 62px;
+    flex-basis: 62px;
+  }
+}
