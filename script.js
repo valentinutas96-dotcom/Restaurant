@@ -360,7 +360,72 @@ async function loadEditableContent() {
 }
 
 
+
+// BIG HOUSE PHOTO GALLERY
+function initHouseGalleries() {
+  document.querySelectorAll('[data-house-gallery]').forEach(gallery => {
+    const track = gallery.querySelector('.stay__house-gallery-track');
+    const slides = Array.from(gallery.querySelectorAll('.stay__house-slide'));
+    const currentLabel = gallery.querySelector('[data-gallery-current]');
+    const previousButton = gallery.querySelector('[data-gallery-prev]');
+    const nextButton = gallery.querySelector('[data-gallery-next]');
+    if (!track || slides.length < 2) return;
+
+    let current = 0;
+    let timer;
+    let touchStartX = 0;
+
+    const show = nextIndex => {
+      current = (nextIndex + slides.length) % slides.length;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      slides.forEach((slide, index) => {
+        slide.setAttribute('aria-hidden', index === current ? 'false' : 'true');
+      });
+      if (currentLabel) currentLabel.textContent = String(current + 1);
+    };
+
+    const stop = () => {
+      if (timer) window.clearInterval(timer);
+    };
+
+    const start = () => {
+      stop();
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        timer = window.setInterval(() => show(current + 1), 5000);
+      }
+    };
+
+    previousButton?.addEventListener('click', () => {
+      show(current - 1);
+      start();
+    });
+
+    nextButton?.addEventListener('click', () => {
+      show(current + 1);
+      start();
+    });
+
+    gallery.addEventListener('mouseenter', stop);
+    gallery.addEventListener('mouseleave', start);
+    gallery.addEventListener('focusin', stop);
+    gallery.addEventListener('focusout', start);
+    gallery.addEventListener('touchstart', event => {
+      touchStartX = event.touches[0].clientX;
+      stop();
+    }, { passive: true });
+    gallery.addEventListener('touchend', event => {
+      const distance = event.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(distance) > 45) show(current + (distance < 0 ? 1 : -1));
+      start();
+    }, { passive: true });
+
+    show(0);
+    start();
+  });
+}
+
 // ── Init ───────────────────────────────────
 renderMenu('starters');
+initHouseGalleries();
 addRevealToSections();
 loadEditableContent();
