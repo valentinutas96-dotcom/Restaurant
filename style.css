@@ -1534,3 +1534,121 @@ body {
     font-size: .78rem;
   }
 }
+
+
+/* BIG HOUSE PHOTO GALLERY */
+.stay__house-gallery {
+  position: relative;
+  margin: 1rem 0 1.5rem;
+  overflow: hidden;
+  border: 2px solid rgba(246,215,127,.72);
+  border-radius: 18px;
+  background: #062F35;
+  box-shadow: 0 14px 32px rgba(2,31,34,.34);
+}
+
+.stay__house-gallery-viewport {
+  overflow: hidden;
+}
+
+.stay__house-gallery-track {
+  display: flex;
+  transition: transform .6s cubic-bezier(.22,.61,.36,1);
+  will-change: transform;
+}
+
+.stay__house-slide {
+  position: relative;
+  min-width: 100%;
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  overflow: hidden;
+  background: #D8EEF4;
+}
+
+.stay__house-slide img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: saturate(1.06) contrast(1.03);
+}
+
+.stay__house-slide figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 2.2rem .9rem .65rem;
+  font-family: var(--font-ui);
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .025em;
+  color: #FFF9EA;
+  background: linear-gradient(to top, rgba(2,31,34,.86), transparent);
+  text-align: left;
+}
+
+.stay__house-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(246,215,127,.72);
+  border-radius: 50%;
+  color: #FFF2BE;
+  background: rgba(3,47,53,.8);
+  box-shadow: 0 6px 16px rgba(2,31,34,.28);
+  font-size: 1.65rem;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background .2s, transform .2s;
+}
+
+.stay__house-arrow:hover {
+  background: #A97D22;
+  transform: translateY(-50%) scale(1.06);
+}
+
+.stay__house-arrow--prev { left: .55rem; }
+.stay__house-arrow--next { right: .55rem; }
+
+.stay__house-counter {
+  position: absolute;
+  top: .55rem;
+  right: .55rem;
+  z-index: 2;
+  padding: .28rem .62rem;
+  border: 1px solid rgba(246,215,127,.5);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: .72rem;
+  color: #FFF9EA;
+  background: rgba(3,47,53,.82);
+  box-shadow: 0 4px 12px rgba(2,31,34,.2);
+}
+
+.stay__house-counter strong {
+  color: #F6D77F;
+}
+
+@media (max-width: 480px) {
+  .stay__house-gallery {
+    border-radius: 15px;
+  }
+
+  .stay__house-arrow {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stay__house-gallery-track {
+    transition: none;
+  }
+}
