@@ -1056,3 +1056,117 @@ body {
     animation: none;
   }
 }
+
+
+/* SEA MEETS FOREST THEME */
+:root {
+  --burgundy:       #0D6268;
+  --burgundy-dark:  #063A40;
+  --burgundy-light: #2B8C86;
+  --forest:         #25543F;
+  --forest-light:   #4B7C5C;
+  --brown:          #567169;
+  --charcoal:       #082F35;
+  --text:           #183D3B;
+  --text-muted:     #59716A;
+  --cream:          #FFF9EA;
+  --cream-dark:     #EDE5CD;
+}
+
+body {
+  background-color: var(--cream);
+  background-image:
+    radial-gradient(circle at 8% 12%, rgba(38,139,145,.1), transparent 31rem),
+    radial-gradient(circle at 92% 36%, rgba(75,124,92,.1), transparent 35rem);
+}
+
+::selection {
+  background: #0D6268;
+  color: #FFF2C8;
+}
+
+.nav.scrolled {
+  background: rgba(6,58,64,.97);
+  border-bottom-color: rgba(246,215,127,.28);
+  box-shadow: 0 12px 36px rgba(3,38,42,.3);
+}
+
+.hero__bg {
+  background-image:
+    radial-gradient(circle at 14% 68%, rgba(85,167,158,.36), transparent 28rem),
+    radial-gradient(circle at 82% 20%, rgba(70,121,82,.44), transparent 31rem),
+    linear-gradient(145deg, #052E38 0%, #0A6470 48%, #214F3B 100%);
+}
+
+.hero__overlay {
+  background:
+    linear-gradient(to bottom, rgba(3,43,49,.1), rgba(3,35,38,.78)),
+    radial-gradient(ellipse at center, transparent 0%, rgba(2,36,38,.32) 100%);
+}
+
+.hero__title {
+  text-shadow: 0 8px 44px rgba(2,35,38,.55);
+}
+
+.hero__badge {
+  background: rgba(5,60,65,.43);
+  border-color: rgba(246,215,127,.38);
+}
+
+.features-strip {
+  background: linear-gradient(100deg, #063A40 0%, #0D6268 48%, #25543F 100%);
+  border-color: rgba(246,215,127,.25);
+}
+
+.stay__card--featured,
+.events__card--featured {
+  background: linear-gradient(145deg, #063A40 0%, #0D6268 58%, #25543F 100%);
+}
+
+.menu__card-img {
+  background: linear-gradient(135deg, #25543F 0%, #0D6268 100%);
+}
+
+.gallery {
+  background:
+    radial-gradient(circle at 12% 15%, rgba(43,140,134,.18), transparent 28rem),
+    linear-gradient(145deg, #062F35 0%, #0A3F42 56%, #183F32 100%);
+}
+
+.booking__bg {
+  background:
+    radial-gradient(ellipse at 17% 50%, rgba(87,167,153,.28) 0%, transparent 55%),
+    radial-gradient(ellipse at 88% 20%, rgba(75,124,92,.26) 0%, transparent 48%),
+    linear-gradient(135deg, #052F38 0%, #0C6067 52%, #214F3B 100%);
+}
+
+.footer {
+  background: linear-gradient(145deg, #052E34, #082F35 54%, #193F31);
+}
+
+.section__eyebrow {
+  color: #16757A;
+}
+
+.btn--outline,
+.social-btn {
+  border-color: #0D6268;
+  color: #0D6268;
+}
+
+.btn--outline:hover,
+.social-btn:hover {
+  background: #0D6268;
+  color: #FFF9EA;
+}
+
+.contact__howto,
+.stay__note {
+  border-left-color: #4B7C5C;
+}
+
+@media (max-width: 768px) {
+  .nav__links {
+    background: rgba(4,45,49,.985);
+  }
+}
