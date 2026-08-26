@@ -963,3 +963,96 @@ body {
     radial-gradient(ellipse at 18% 50%, rgba(209,154,67,.22) 0%, transparent 55%),
     linear-gradient(135deg, #241014 0%, #4A151E 54%, #321016 100%);
 }
+
+
+/* GLOSSY GOLD FINISH */
+:root {
+  --gold: #C68A24;
+  --gold-light: #F6D77F;
+  --gold-pale: #FFF2C8;
+  --gold-deep: #8A5814;
+  --gold-gloss: linear-gradient(
+    115deg,
+    #8A5814 0%,
+    #C68A24 18%,
+    #FFF0A6 38%,
+    #D6A13D 53%,
+    #FFE99A 68%,
+    #B87519 86%,
+    #8A5814 100%
+  );
+}
+
+.hero__title em {
+  color: #F6D77F;
+  background: linear-gradient(180deg, #FFF6C9 5%, #F6D77F 42%, #B87519 78%, #FFE99A 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 5px 16px rgba(198,138,36,.28));
+}
+
+.btn--primary,
+.nav__link--cta,
+.menu__tab--active,
+.stay__card-badge,
+.events__card-badge,
+.menu__card-badge {
+  color: #321016 !important;
+  border-color: #E9BC5B;
+  background-image: var(--gold-gloss);
+  background-size: 240% 100%;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.75),
+    inset 0 -2px 0 rgba(110,65,10,.22),
+    0 10px 25px rgba(126,78,16,.24);
+  animation: goldGloss 6s ease-in-out infinite;
+}
+
+.btn--primary:hover,
+.nav__link--cta:hover,
+.menu__tab--active:hover {
+  color: #241014 !important;
+  border-color: #FFF0A6;
+  background-image: var(--gold-gloss);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    inset 0 -2px 0 rgba(110,65,10,.18),
+    0 15px 34px rgba(126,78,16,.36);
+  transform: translateY(-2px);
+}
+
+.nav__logo-icon {
+  background-image: var(--gold-gloss);
+  background-size: 220% 100%;
+  color: #321016;
+  animation: goldGloss 7s ease-in-out infinite;
+}
+
+.hero__family-note span,
+.section__eyebrow::before {
+  color: #F6D77F;
+  text-shadow: 0 0 16px rgba(246,215,127,.38);
+}
+
+.section__title em {
+  color: #9B6519;
+  text-decoration-color: rgba(198,138,36,.5);
+}
+
+@keyframes goldGloss {
+  0%, 18% { background-position: 100% 0; }
+  52%, 100% { background-position: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn--primary,
+  .nav__link--cta,
+  .menu__tab--active,
+  .stay__card-badge,
+  .events__card-badge,
+  .menu__card-badge,
+  .nav__logo-icon {
+    animation: none;
+  }
+}
