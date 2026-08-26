@@ -1652,3 +1652,58 @@ body {
     transition: none;
   }
 }
+
+
+/* EMPHASIZED ABOUT TYPOGRAPHY */
+.about__text .section__title {
+  font-size: clamp(2.45rem, 4vw, 4rem);
+  line-height: 1.04;
+  letter-spacing: -.025em;
+  color: #052F34;
+  text-shadow: 0 2px 0 rgba(255,255,255,.78);
+}
+
+.about__text .section__title em {
+  color: #8A6217;
+  text-shadow:
+    0 1px 0 #FFF2BE,
+    0 3px 12px rgba(138,98,23,.16);
+}
+
+.about__lead {
+  margin-top: 1.35rem;
+  padding: .95rem 1.1rem;
+  border-left: 4px solid #B88B2C;
+  border-radius: 0 14px 14px 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.22rem, 1.65vw, 1.55rem);
+  font-weight: 700;
+  line-height: 1.55;
+  color: #082F35;
+  background: rgba(255,255,255,.52);
+  box-shadow: 0 8px 22px rgba(6,58,64,.08);
+}
+
+.about__body {
+  margin-top: 1.15rem;
+  font-size: clamp(1.06rem, 1.18vw, 1.22rem);
+  font-weight: 600;
+  line-height: 1.8;
+  color: #173B3C;
+}
+
+@media (max-width: 480px) {
+  .about__text .section__title {
+    font-size: clamp(2.2rem, 11vw, 3rem);
+  }
+
+  .about__lead {
+    padding: .8rem .9rem;
+    font-size: 1.15rem;
+  }
+
+  .about__body {
+    font-size: 1.02rem;
+    line-height: 1.72;
+  }
+}
