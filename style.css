@@ -1709,33 +1709,6 @@ body {
 }
 
 
-/* SEA-AND-FOREST ACCOMMODATION BACKDROP */
-.stay {
-  position: relative;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(77, 181, 176, .32), transparent 28rem),
-    radial-gradient(circle at 88% 76%, rgba(80, 137, 91, .38), transparent 31rem),
-    linear-gradient(135deg, #073d4b 0%, #0c6d75 48%, #285f45 100%);
-}
-
-.stay .section__eyebrow {
-  color: #f6d77f;
-}
-
-.stay .section__title {
-  color: #fff9ea;
-  text-shadow: 0 5px 22px rgba(2, 31, 34, .34);
-}
-
-.stay .section__title em {
-  color: #f6d77f;
-}
-
-.stay__intro {
-  color: rgba(255, 249, 234, .92);
-  text-shadow: 0 2px 12px rgba(2, 31, 34, .24);
-}
-
 /* FAMILY HEART STORY */
 .about__family-story {
   display: grid;
