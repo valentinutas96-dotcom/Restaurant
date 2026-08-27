@@ -15,13 +15,11 @@
     "image": ""
   },
   "gallery": [
-    { "caption": "Агне на пещ", "image": "" },
-    { "caption": "Бар-басейн", "image": "" },
-    { "caption": "Стара Планина", "image": "" },
-    { "caption": "Нашите уютни къщи", "image": "" },
-    { "caption": "Домашна ракия и вино", "image": "" },
-    { "caption": "Плаж Иракли · 4 км", "image": "" },
-    { "caption": "Семейни тържества", "image": "" }
+    { "caption": "Безкраен басейн сред гората", "image": "media/attractions/infinity-pool-hq.webp" },
+    { "caption": "Приключение край планинския поток", "image": "media/attractions/stream-adventure-hq.webp" },
+    { "caption": "Дивата природа отблизо", "image": "media/attractions/bird-nest-hq.webp" },
+    { "caption": "Зимна разходка в гората", "image": "media/attractions/winter-road-hq.webp" },
+    { "caption": "Тишината на зимния пейзаж", "image": "media/attractions/winter-landscape-hq.webp" }
   ],
   "contact": {
     "address": "с. Баня, местност Иракли, Община Несебър",
