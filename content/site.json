@@ -18,6 +18,9 @@
     { "caption": "Безкраен басейн сред гората", "image": "media/attractions/infinity-pool-hq.webp" },
     { "caption": "Приключение край планинския поток", "image": "media/attractions/stream-adventure-hq.webp" },
     { "caption": "Дивата природа отблизо", "image": "media/attractions/bird-nest-hq.webp" },
+    { "caption": "Закуска с гледка към басейна", "image": "media/attractions/poolside-breakfast-hq.webp" },
+    { "caption": "Лятна свежест под българското знаме", "image": "media/attractions/summer-drink-flag-hq.webp" },
+    { "caption": "Цветно настроение в лятната градина", "image": "media/attractions/summer-drink-garden-hq.webp" },
     { "caption": "Зимна разходка в гората", "image": "media/attractions/winter-road-hq.webp" },
     { "caption": "Тишината на зимния пейзаж", "image": "media/attractions/winter-landscape-hq.webp" }
   ],
@@ -25,7 +28,7 @@
     "address": "с. Баня, местност Иракли, Община Несебър",
     "phone1": "0899 319 577",
     "phone2": "0876 757 102",
-    "facebook": "https://www.facebook.com/veselonaselo",
+    "facebook": "https://www.facebook.com/veselonaselo/?locale=bg_BG",
     "tiktok": "https://www.tiktok.com/@mehana.kasher"
   }
 }
