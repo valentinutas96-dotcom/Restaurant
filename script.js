@@ -48,10 +48,10 @@ function renderMenu(category) {
 
   items.forEach((item, i) => {
     const tags = item.tags
-      ? item.tags.map(t => `<span class="menu__tag">${t}</span>`).join('')
+      ? item.tags.map(t => `<span class="menu__tag">${escapeHTML(t)}</span>`).join('')
       : '';
     const badge = item.badge
-      ? `<div class="menu__card-badge">${item.badge}</div>`
+      ? `<div class="menu__card-badge">${escapeHTML(item.badge)}</div>`
       : '';
 
     const card = document.createElement('div');
@@ -66,8 +66,8 @@ function renderMenu(category) {
         ${badge}
       </div>
       <div class="menu__card-body">
-        <div class="menu__card-name">${item.name}</div>
-        <div class="menu__card-desc">${item.desc}</div>
+        <div class="menu__card-name">${escapeHTML(item.name)}</div>
+        <div class="menu__card-desc">${escapeHTML(item.desc)}</div>
         <div class="menu__card-footer">
           <div class="menu__card-tags">${tags}</div>
         </div>
@@ -110,6 +110,7 @@ burger.addEventListener('click', () => {
 navLinks.querySelectorAll('.nav__link').forEach(link => {
   link.addEventListener('click', () => {
     navLinks.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
   });
 });
 
@@ -148,7 +149,12 @@ const bookingSuccess = document.getElementById('bookingSuccess');
 // Set min date to today
 const dateInput = document.getElementById('date');
 if (dateInput) {
-  const today = new Date().toISOString().split('T')[0];
+  const now = new Date();
+  const today = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, '0'),
+    String(now.getDate()).padStart(2, '0')
+  ].join('-');
   dateInput.setAttribute('min', today);
 }
 
@@ -204,7 +210,7 @@ function setText(selector, value) {
 
 function setPhoneLinks(phone1, phone2) {
   const links = [...document.querySelectorAll('a[href^="tel:"]')];
-  const phoneHref = phone => `tel:${String(phone || '').replace(/[^+\\d]/g, '')}`;
+  const phoneHref = phone => `tel:${String(phone || '').replace(/[^+\d]/g, '')}`;
 
   if (phone1) {
     [links[0], links[2]].forEach((link, index) => {
@@ -360,8 +366,94 @@ async function loadEditableContent() {
 
 
 
-// BIG HOUSE PHOTO GALLERY
-function initHouseGalleries() {
+// FULLSCREEN HOUSE PHOTO VIEWER
+function initHouseLightbox() {
+  const lightbox = document.getElementById('houseLightbox');
+  const image = document.getElementById('houseLightboxImage');
+  const caption = document.getElementById('houseLightboxCaption');
+  const closeButton = lightbox?.querySelector('[data-lightbox-close]');
+  const previousButton = lightbox?.querySelector('[data-lightbox-prev]');
+  const nextButton = lightbox?.querySelector('[data-lightbox-next]');
+  const figure = lightbox?.querySelector('.house-lightbox__figure');
+  if (!lightbox || !image || !caption || !closeButton || !previousButton || !nextButton || !figure) return null;
+
+  let slides = [];
+  let current = 0;
+  let previousFocus = null;
+  let touchStartX = 0;
+
+  const show = nextIndex => {
+    if (!slides.length) return;
+    current = (nextIndex + slides.length) % slides.length;
+    const sourceImage = slides[current].querySelector('img');
+    const sourceCaption = slides[current].querySelector('figcaption');
+    if (!sourceImage) return;
+
+    image.src = sourceImage.currentSrc || sourceImage.src;
+    image.alt = sourceImage.alt || 'Снимка на къща';
+    caption.textContent = `${current + 1} / ${slides.length} · ${sourceCaption?.textContent || image.alt}`;
+  };
+
+  const close = () => {
+    if (lightbox.hidden) return;
+    lightbox.hidden = true;
+    document.body.classList.remove('lightbox-open');
+    image.removeAttribute('src');
+    previousFocus?.focus();
+  };
+
+  const open = (gallerySlides, startIndex) => {
+    slides = Array.from(gallerySlides);
+    if (!slides.length) return;
+    previousFocus = document.activeElement;
+    lightbox.hidden = false;
+    document.body.classList.add('lightbox-open');
+    show(startIndex);
+    closeButton.focus();
+  };
+
+  closeButton.addEventListener('click', close);
+  previousButton.addEventListener('click', () => show(current - 1));
+  nextButton.addEventListener('click', () => show(current + 1));
+  lightbox.addEventListener('click', event => {
+    if (event.target === lightbox) close();
+  });
+
+  figure.addEventListener('touchstart', event => {
+    touchStartX = event.touches[0].clientX;
+  }, { passive: true });
+  figure.addEventListener('touchend', event => {
+    const distance = event.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(distance) > 45) show(current + (distance < 0 ? 1 : -1));
+  }, { passive: true });
+
+  document.addEventListener('keydown', event => {
+    if (lightbox.hidden) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      close();
+      return;
+    }
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault();
+      show(current + (event.key === 'ArrowRight' ? 1 : -1));
+      return;
+    }
+    if (event.key === 'Tab') {
+      const controls = [closeButton, previousButton, nextButton];
+      const activeIndex = controls.indexOf(document.activeElement);
+      const direction = event.shiftKey ? -1 : 1;
+      const nextFocus = controls[(activeIndex + direction + controls.length) % controls.length];
+      event.preventDefault();
+      nextFocus.focus();
+    }
+  });
+
+  return { open };
+}
+
+// HOUSE PHOTO CAROUSELS
+function initHouseGalleries(lightbox) {
   document.querySelectorAll('[data-house-gallery]').forEach(gallery => {
     const track = gallery.querySelector('.stay__house-gallery-track');
     const slides = Array.from(gallery.querySelectorAll('.stay__house-slide'));
@@ -404,6 +496,26 @@ function initHouseGalleries() {
       start();
     });
 
+    if (lightbox) {
+      slides.forEach((slide, index) => {
+        const image = slide.querySelector('img');
+        if (!image) return;
+        image.tabIndex = 0;
+        image.setAttribute('role', 'button');
+        image.setAttribute('aria-label', `${image.alt}. Отвори на цял екран`);
+        const openImage = () => {
+          stop();
+          lightbox.open(slides, index);
+        };
+        image.addEventListener('click', openImage);
+        image.addEventListener('keydown', event => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          openImage();
+        });
+      });
+    }
+
     gallery.addEventListener('mouseenter', stop);
     gallery.addEventListener('mouseleave', start);
     gallery.addEventListener('focusin', stop);
@@ -423,16 +535,11 @@ function initHouseGalleries() {
   });
 }
 
-// CELEBRATION VIDEO: loops silently until the visitor enables the music.
+// CELEBRATION VIDEO: one native HD stream avoids gaps between old segments.
 function initCelebrationVideo() {
   const video = document.getElementById('celebrationVideo');
   const soundButton = document.getElementById('celebrationSound');
   if (!video || !soundButton) return;
-
-  const segmentCount = Number(video.dataset.segmentCount || 1);
-  let segmentIndex = 0;
-  const segmentPath = index => `media/events/celebration-segments/part-${String(index).padStart(2, '0')}.mp4`;
-  const preloadSegment = index => fetch(segmentPath(index), { cache: 'force-cache' }).catch(() => {});
 
   const updateSoundButton = () => {
     const soundIsOn = !video.muted;
@@ -441,17 +548,27 @@ function initCelebrationVideo() {
   };
 
   video.muted = true;
-  video.play().catch(() => {});
+  let isNearViewport = false;
 
-  const playNextSegment = () => {
-    segmentIndex = (segmentIndex + 1) % segmentCount;
-    video.src = segmentPath(segmentIndex);
-    video.play().catch(() => {});
-    preloadSegment((segmentIndex + 1) % segmentCount);
-  };
+  const playbackObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      isNearViewport = entry.isIntersecting;
+      if (isNearViewport && !document.hidden) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, { rootMargin: '500px 0px', threshold: 0.01 });
 
-  video.addEventListener('ended', playNextSegment);
-  preloadSegment(1 % segmentCount);
+  playbackObserver.observe(video);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      video.pause();
+    } else if (isNearViewport) {
+      video.play().catch(() => {});
+    }
+  });
 
   soundButton.addEventListener('click', async () => {
     video.muted = !video.muted;
@@ -468,7 +585,8 @@ function initCelebrationVideo() {
 
 // ── Init ───────────────────────────────────
 renderMenu('starters');
-initHouseGalleries();
+const houseLightbox = initHouseLightbox();
+initHouseGalleries(houseLightbox);
 initCelebrationVideo();
 addRevealToSections();
 loadEditableContent();

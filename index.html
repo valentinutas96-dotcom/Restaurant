@@ -329,6 +329,17 @@
   </div>
 </section>
 
+<div class="house-lightbox" id="houseLightbox" role="dialog" aria-modal="true" aria-labelledby="houseLightboxCaption" hidden>
+  <button class="house-lightbox__close" type="button" data-lightbox-close aria-label="Затвори голямата снимка">×</button>
+  <button class="house-lightbox__arrow house-lightbox__arrow--prev" type="button" data-lightbox-prev aria-label="Предишна снимка">‹</button>
+  <figure class="house-lightbox__figure">
+    <img class="house-lightbox__image" id="houseLightboxImage" alt="" />
+    <figcaption class="house-lightbox__caption" id="houseLightboxCaption" aria-live="polite"></figcaption>
+  </figure>
+  <button class="house-lightbox__arrow house-lightbox__arrow--next" type="button" data-lightbox-next aria-label="Следваща снимка">›</button>
+  <p class="house-lightbox__hint">Използвай стрелките или плъзни снимката</p>
+</div>
+
 <!-- ══════════════ MENU ══════════════ -->
 <section class="menu section" id="menu">
   <div class="container">
@@ -395,7 +406,8 @@
 
     <div class="events__video-feature">
       <div class="events__video-frame">
-        <video id="celebrationVideo" src="media/events/celebration-segments/part-00.mp4" data-segment-count="19" autoplay muted playsinline preload="auto" poster="media/events/celebration-kasher-poster.webp" aria-label="Празненство с музика във Family Restaurant Kasher">
+        <video id="celebrationVideo" muted playsinline loop preload="metadata" poster="media/events/celebration-kasher-poster.webp" aria-label="Празненство с музика във Family Restaurant Kasher">
+          <source src="media/events/celebration-hd.mp4" type="video/mp4" />
           Вашият браузър не поддържа това видео.
         </video>
         <button class="events__sound" id="celebrationSound" type="button" aria-pressed="false">🔊 Включи музиката</button>
