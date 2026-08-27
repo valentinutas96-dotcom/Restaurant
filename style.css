@@ -1709,6 +1709,34 @@ body {
 }
 
 
+/* IRAKLI SEA BACKDROP FOR ACCOMMODATION */
+.stay {
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(3, 47, 53, .48), rgba(13, 98, 104, .26) 52%, rgba(37, 84, 63, .42)),
+    url("media/stay-background-irakli-hq.webp") center / cover no-repeat;
+}
+
+.stay .section__eyebrow {
+  color: #f6d77f;
+  text-shadow: 0 2px 12px rgba(2, 31, 34, .55);
+}
+
+.stay .section__title {
+  color: #fff9ea;
+  text-shadow: 0 5px 24px rgba(2, 31, 34, .58);
+}
+
+.stay .section__title em {
+  color: #ffe89c;
+}
+
+.stay__intro {
+  color: #fff9ea;
+  font-weight: 600;
+  text-shadow: 0 3px 16px rgba(2, 31, 34, .68);
+}
+
 /* FAMILY HEART STORY */
 .about__family-story {
   display: grid;
