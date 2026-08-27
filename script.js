@@ -69,7 +69,6 @@ function renderMenu(category) {
         <div class="menu__card-name">${item.name}</div>
         <div class="menu__card-desc">${item.desc}</div>
         <div class="menu__card-footer">
-          <span class="menu__card-price">${item.price}</span>
           <div class="menu__card-tags">${tags}</div>
         </div>
       </div>
@@ -424,8 +423,52 @@ function initHouseGalleries() {
   });
 }
 
+// CELEBRATION VIDEO: loops silently until the visitor enables the music.
+function initCelebrationVideo() {
+  const video = document.getElementById('celebrationVideo');
+  const soundButton = document.getElementById('celebrationSound');
+  if (!video || !soundButton) return;
+
+  const segmentCount = Number(video.dataset.segmentCount || 1);
+  let segmentIndex = 0;
+  const segmentPath = index => `media/events/celebration-segments/part-${String(index).padStart(2, '0')}.mp4`;
+  const preloadSegment = index => fetch(segmentPath(index), { cache: 'force-cache' }).catch(() => {});
+
+  const updateSoundButton = () => {
+    const soundIsOn = !video.muted;
+    soundButton.textContent = soundIsOn ? '🔇 Спри музиката' : '🔊 Включи музиката';
+    soundButton.setAttribute('aria-pressed', String(soundIsOn));
+  };
+
+  video.muted = true;
+  video.play().catch(() => {});
+
+  const playNextSegment = () => {
+    segmentIndex = (segmentIndex + 1) % segmentCount;
+    video.src = segmentPath(segmentIndex);
+    video.play().catch(() => {});
+    preloadSegment((segmentIndex + 1) % segmentCount);
+  };
+
+  video.addEventListener('ended', playNextSegment);
+  preloadSegment(1 % segmentCount);
+
+  soundButton.addEventListener('click', async () => {
+    video.muted = !video.muted;
+    if (video.paused) {
+      try { await video.play(); } catch (error) {
+        console.warn('Видеото очаква натискане за стартиране.', error);
+      }
+    }
+    updateSoundButton();
+  });
+
+  updateSoundButton();
+}
+
 // ── Init ───────────────────────────────────
 renderMenu('starters');
 initHouseGalleries();
+initCelebrationVideo();
 addRevealToSections();
 loadEditableContent();
