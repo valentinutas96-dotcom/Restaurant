@@ -535,6 +535,21 @@ function initHouseGalleries(lightbox) {
   });
 }
 
+// MENU PAGES: reuse the fullscreen viewer so every price remains readable.
+function initMenuLightbox(lightbox) {
+  const pages = Array.from(document.querySelectorAll('.menu__page'));
+  if (!lightbox || !pages.length) return;
+
+  pages.forEach((page, index) => {
+    page.setAttribute('aria-haspopup', 'dialog');
+    page.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      lightbox.open(pages, index);
+    });
+  });
+}
+
 // CELEBRATION VIDEO: one native HD stream avoids gaps between old segments.
 function initCelebrationVideo() {
   const video = document.getElementById('celebrationVideo');
@@ -593,6 +608,7 @@ function initCelebrationVideo() {
 renderMenu('starters');
 const houseLightbox = initHouseLightbox();
 initHouseGalleries(houseLightbox);
+initMenuLightbox(houseLightbox);
 initCelebrationVideo();
 addRevealToSections();
 loadEditableContent();
