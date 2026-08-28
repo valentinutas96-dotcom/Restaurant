@@ -548,6 +548,12 @@ function initCelebrationVideo() {
   };
 
   video.muted = true;
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const useLiteVideo = connection?.saveData || ['slow-2g', '2g'].includes(connection?.effectiveType);
+  if (useLiteVideo && video.dataset.liteSrc) {
+    video.src = video.dataset.liteSrc;
+    video.load();
+  }
   let isNearViewport = false;
 
   const playbackObserver = new IntersectionObserver(entries => {
